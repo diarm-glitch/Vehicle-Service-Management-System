@@ -1,54 +1,56 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Customers from "./pages/Customers";
 
 import Navbar from "./components/Navbar";
 import About from "./components/About";
 import Services from "./components/Services";
 import BuySell from "./components/BuySell";
 import Assistance from "./components/Assistance";
-import Footer from "./components/Footer"
+import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";
 import Contact from "./components/Contact";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import Vehicles from "./pages/Vehicles";
-import ServiceTypes from "./pages/ServiceTypes";
-import Technicians from "./pages/Technicians";
-import Appointments from "./pages/Appointments";
-import Parts from "./pages/Parts";
-import ServiceRecords from "./pages/ServiceRecords";
-import ServiceParts from "./pages/ServiceParts";
-import Invoices from "./pages/Invoices";
-import ServiceReminders from "./pages/ServiceReminders";
-import Roles from "./pages/Roles";
-import UserRoles from "./pages/UserRoles";
-import Users from "./pages/Users";
-import UserClaims from "./pages/UserClaims";
-import UserTokens from "./pages/UserTokens";
-import MechanicApplication from "./pages/MechanicApplication";
-import EmergencyPickup from "./pages/EmergencyPickup";
-import ContactMessages from "./pages/ContactMessages";
-import EmergencyPickups from "./pages/EmergencyPickups";
-import MechanicApplications from "./pages/MechanicApplications";
-import Profile from "./pages/Profile";
-import CarStatus from "./pages/CarStatus";
-import AdminProfile from "./pages/AdminProfile";
-import StaffProfile from "./pages/StaffProfile";
-import Repairs from "./pages/Repairs";
-import Diagnostics from "./pages/Diagnostics";
-import Servicing from "./pages/Servicing";
-import Tyres from "./pages/Tyres";
-import Tuning from "./pages/Tuning";
-import PrePurchaseInspection from "./pages/PrePurchaseInspection";
-import ServicingRequests from "./pages/ServicingRequests";
-import MyServicingRequests from "./pages/MyServicingRequests";
-import PrePurchaseInspectionRequests from "./pages/PrePurchaseInspectionRequests";
-import MyPrePurchaseInspectionRequests from "./pages/MyPrePurchaseInspectionRequests";
-import RoadsideSubscription from "./pages/RoadsideSubscription";
-import RoadsideSubscriptions from "./pages/RoadsideSubscriptions";
+const Login = lazy(() => import ("./pages/Login"));
+const Register = lazy(() => import ("./pages/Register"));
+const Dashboard = lazy(() => import ("./pages/Dashboard"));
+const Customers = lazy (() => import ("./pages/Customers"));
+const Vehicles = lazy(() => import ("./pages/Vehicles"));
+const ServiceTypes = lazy(() => import ("./pages/ServiceTypes"));
+const Technicians = lazy(() => import ("./pages/Technicians"));
+const Appointments = lazy(() => import ("./pages/Appointments"));
+const Parts = lazy(() => import ("./pages/Parts"));
+const ServiceRecords = lazy(() => import ("./pages/ServiceRecords"));
+const ServiceParts = lazy(() => import ("./pages/ServiceParts"));
+const Invoices = lazy(() => import ("./pages/Invoices"));
+const ServiceReminders = lazy(() => import ("./pages/ServiceReminders"));
+const Roles = lazy(() => import ("./pages/Roles"));
+const UserRoles = lazy(() => import ("./pages/UserRoles"));
+const Users = lazy(() => import ("./pages/Users"));
+const UserClaims = lazy(() => import ("./pages/UserClaims"));
+const UserTokens = lazy(() => import ("./pages/UserTokens"));
+const MechanicApplication = lazy(() => import ("./pages/MechanicApplication"));
+const EmergencyPickup = lazy(() => import ("./pages/EmergencyPickup"));
+const ContactMessages = lazy(() => import ("./pages/ContactMessages"));
+const EmergencyPickups = lazy(() => import ("./pages/EmergencyPickups"));
+const MechanicApplications = lazy(() => import ("./pages/MechanicApplications"));
+const Profile = lazy(() => import ("./pages/Profile"));
+const CarStatus = lazy(() => import ("./pages/CarStatus"));
+const AdminProfile = lazy(() => import ("./pages/AdminProfile"));
+const StaffProfile = lazy(() => import ("./pages/StaffProfile"));
+const Repairs = lazy(() => import ("./pages/Repairs"));
+const Diagnostics = lazy(() => import ("./pages/Diagnostics"));
+const Servicing = lazy(() => import ("./pages/Servicing"));
+const Tyres = lazy(() => import ("./pages/Tyres"));
+const Tuning = lazy(() => import ("./pages/Tuning"));
+const PrePurchaseInspection = lazy(() => import ("./pages/PrePurchaseInspection"));
+const ServicingRequests = lazy(() => import ("./pages/ServicingRequests"));
+const MyServicingRequests = lazy(() => import ("./pages/MyServicingRequests"));
+const PrePurchaseInspectionRequests = lazy(() => import ("./pages/PrePurchaseInspectionRequests"));
+const MyPrePurchaseInspectionRequests = lazy(() => import ("./pages/MyPrePurchaseInspectionRequests"));
+const RoadsideSubscription = lazy(() => import ("./pages/RoadsideSubscription"));
+const RoadsideSubscriptions = lazy(() => import ("./pages/RoadsideSubscriptions"));
 
 function HomePage() {
   return (
@@ -95,6 +97,7 @@ function AdminLayout({ children }) {
 function App() {
   return (
     <BrowserRouter>
+    <Suspense fallback={<h2>Loading...</h2>}>
     <Routes>
 
       <Route path="/" element={<HomePage />} />
@@ -145,7 +148,7 @@ function App() {
       />
 
       <Route 
-      path="/Vehicles"
+      path="/vehicles"
       element = {
         <ProtectedRoute allowedRoles={["Admin", "Staff"]}>
           <AdminLayout>
@@ -442,6 +445,7 @@ function App() {
       />
 
     </Routes>
+    </Suspense>
     </BrowserRouter>
   );
 }
