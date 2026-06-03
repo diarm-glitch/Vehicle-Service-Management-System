@@ -90,6 +90,14 @@ function Customers() {
 
             alert("Customer added successfully");
 
+            setFormData({
+                emri: "",
+                mbiemri: "",
+                telefoni: "",
+                email: "",
+                adresa: "",
+            });
+
             getCustomers();
         } catch (error) {
             console.log(error);
