@@ -59,7 +59,7 @@ function UserRoles() {
   const handleDelete = async (id) => {
     try {
       if (window.confirm("Are you sure you want to delete this customer?")) {
-          await API.delete(`/customers/${id}`);
+          await API.delete(`/user-roles/${id}`);
           }
 
       alert("User role deleted successfully");
