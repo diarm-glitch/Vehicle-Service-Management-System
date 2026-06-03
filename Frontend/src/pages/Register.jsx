@@ -15,7 +15,7 @@ function Register() {
     e.preventDefault();
 
     try {
-      await api.post("/users", {
+      await api.post("/auth/register", {
         emri,
         mbiemri,
         email,

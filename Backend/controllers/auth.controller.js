@@ -36,17 +36,33 @@ exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         db.query(
-            'INSERT INTO Users (emri, mbiemri, email, password_hash, phone_number, statusi) VALUES (?, ?, ?, ?, ?, ?)',
-            [emri, mbiemri, email, hashedPassword, phone_number, 'Active'],
-            (err) => {
-                if (err) {
-                    console.log("INSERT ERROR:", err);
-                    return res.status(500).json({ message: 'User registration failed', error: err });
-                }
+  'INSERT INTO Users (emri, mbiemri, email, password_hash, phone_number, statusi) VALUES (?, ?, ?, ?, ?, ?)',
+  [emri, mbiemri, email, hashedPassword, phone_number, 'Active'],
+  (err, result) => {
+    if (err) {
+      console.log("INSERT ERROR:", err);
+      return res.status(500).json({ message: 'User registration failed', error: err });
+    }
 
-                res.status(201).json({ message: 'User registered successfully' });
-            }
-        );
+    const newUserId = result.insertId;
+
+    db.query(
+      'INSERT INTO UserRoles (user_id, role_id) VALUES (?, ?)',
+      [newUserId, 5],
+      (roleErr) => {
+        if (roleErr) {
+          console.log("ROLE INSERT ERROR:", roleErr);
+          return res.status(500).json({
+            message: 'User created but role assignment failed',
+            error: roleErr
+          });
+        }
+
+        res.status(201).json({ message: 'User registered successfully' });
+      }
+    );
+  }
+);
     } catch (error) {
         console.log("HASH ERROR:", error);
         res.status(500).json({ message: 'Hashing failed', error });

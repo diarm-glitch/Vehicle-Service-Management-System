@@ -31,7 +31,7 @@ function Login() {
 
             const userRole = response.data.user.role;
 
-            if (userRole === "User") {
+            if (userRole === "User" || userRole === "Premium User") {
             window.location.href = "/profile";
             } else {
             window.location.href = "/dashboard";

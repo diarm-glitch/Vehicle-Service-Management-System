@@ -56,6 +56,8 @@ const EVCars = lazy(() => import("./pages/EVCars"));
 const SUVCars = lazy(() => import("./pages/SUVCars"));
 const Vans = lazy(() => import("./pages/Vans"));
 const Hybrids = lazy(() => import("./pages/Hybrids"));
+const MyReviews = lazy (() => import("./pages/MyReviews"));
+const MySales = lazy(() => import("./pages/MySales"));
 
 function HomePage() {
   return (
@@ -454,6 +456,28 @@ function App() {
         <ProtectedRoute allowedRoles={["User", "user", "Premium User"]}>
           <AdminLayout>
             <RoadsideSubscription />
+          </AdminLayout>
+        </ProtectedRoute>
+      }
+      />
+
+      <Route 
+      path="/my-reviews"
+      element={
+        <ProtectedRoute allowedRoles={["User", "user", "Premium User"]}>
+          <AdminLayout>
+            <MyReviews />
+          </AdminLayout>
+        </ProtectedRoute>
+      }
+      />
+
+      <Route
+      path="/my-sales"
+      element={
+        <ProtectedRoute allowedRoles={["User", "user", "Premium User"]}>
+          <AdminLayout>
+            <MySales />
           </AdminLayout>
         </ProtectedRoute>
       }

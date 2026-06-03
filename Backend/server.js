@@ -26,6 +26,8 @@ const emergencyPickupRoutes = require("./routes/emergencyPickup.routes");
 const servicingRequestRoutes = require("./routes/servicingRequest.routes");
 const prePurchaseInspectionRequestRoutes = require("./routes/prePurchaseInspectionRequest.routes");
 const roadsideSubscriptionRoutes = require("./routes/roadsideSubscription.routes");
+const carReviewRoutes = require("./routes/carReview.routes");
+const carSaleRequestRoutes = require("./routes/carSaleRequest.routes");
 
 const app = express();
 
@@ -78,6 +80,10 @@ app.use("/servicing-requests", servicingRequestRoutes);
 app.use("/pre-purchase-inspection-requests", prePurchaseInspectionRequestRoutes);
 
 app.use("/roadside-subscriptions", roadsideSubscriptionRoutes);
+
+app.use("/car-reviews", carReviewRoutes);
+
+app.use("/car-sale-requests", carSaleRequestRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running');

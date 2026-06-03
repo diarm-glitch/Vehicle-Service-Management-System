@@ -23,21 +23,13 @@ function BuySell() {
             Find a car
           </Link>
 
-          <button
-            className={`car-tab ${activeTab === "Sell my car" ? "active" : ""}`}
-            onClick={() => setActiveTab("Sell my car")}
-          >
-            Sell my car
-          </button>
+          <Link to="/new-cars" className="car-tab">
+          Sell my car
+          </Link>
 
-          <button
-            className={`car-tab ${
-              activeTab === "Read reviews" ? "active" : ""
-            }`}
-            onClick={() => setActiveTab("Read reviews")}
-          >
-            Read reviews
-          </button>
+          <Link to="/new-cars" className="car-tab">
+          Read reviews
+          </Link>
         </div>
 
         <div className="search-area">

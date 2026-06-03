@@ -1380,3 +1380,113 @@ html {
 .back-home:hover {
   text-decoration: underline;
 }
+
+.review-title-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #1e88e5;
+  color: white;
+  cursor: pointer;
+  margin: 40px auto;
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.review-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.review-modal {
+  background: white;
+  width: 520px;
+  max-width: 90%;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.review-modal h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.review-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  border: none;
+  background: transparent;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.review-modal-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.review-modal-form input,
+.review-modal-form textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.review-modal-form textarea {
+  grid-column: 1 / 3;
+  height: 90px;
+  resize: none;
+}
+
+.review-modal-form button {
+  grid-column: 1 / 3;
+  border: none;
+  background: #1e88e5;
+  color: white;
+  padding: 14px;
+  border-radius: 25px;
+  font-weight: 700;
+}
+
+.review-modal-form input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background: white;
+}
+
+.review-modal {
+  overflow: hidden;
+}
+
+.car-tab {
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: #666;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.car-tab:hover {
+  background-color: #d9eefc;
+  color: #1e88e5;
+}
+
+.car-tab.active {
+  background-color: #d9eefc;
+  color: #1e88e5;
+}

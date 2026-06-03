@@ -80,6 +80,8 @@ function Sidebar() {
             <li className="nav-item"><NavLink to="/car-status" className={getNavClass}>Your Car Status</NavLink></li>
             <li className="nav-item"><NavLink to="/my-servicing-requests" className={getNavClass}>My Servicing Requests</NavLink></li>
             <li className="nav-item"><NavLink to="/my-pre-purchase-inspection-requests"className={getNavClass}>My Inspection Requests</NavLink></li>
+            <li className="nav-item"><NavLink to="/my-reviews" className={getNavClass}>My Reviews</NavLink></li>
+            <li className="nav-item"><NavLink to="/my-sales" className={getNavClass}>My Sales</NavLink></li>
           </>
         )}
 

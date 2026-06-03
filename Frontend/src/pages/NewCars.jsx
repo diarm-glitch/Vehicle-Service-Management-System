@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -6,6 +7,163 @@ function NewCars() {
   const [activeTab, setActiveTab] = useState("find");
   const [activeCategory, setActiveCategory] = useState("new");
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [publicReviews, setPublicReviews] = useState([]);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+
+  const [saleRequests, setSaleRequests] = useState([]);
+  const [showSellForm, setShowSellForm] = useState(false);
+
+  const [reviewForm, setReviewForm] = useState({
+    car_make: "",
+    car_model: "",
+    car_year: "",
+    rating: "",
+    title: "",
+    review_text: "",
+  });
+
+  const [sellForm, setSellForm] = useState({
+    car_make: "",
+    car_model: "",
+    car_year: "",
+    mileage: "",
+    fuel_type: "",
+    price: "",
+    description: "",
+    image: null,
+  });
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    fetchReviews();
+    fetchSaleRequests();
+  }, []);
+
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/car-reviews");
+      setPublicReviews(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchSaleRequests = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/car-sale-requests");
+      setSaleRequests(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleReviewChange = (e) => {
+    setReviewForm({
+      ...reviewForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitReview = async (e) => {
+    e.preventDefault();
+
+    if (!token) {
+      alert("Please login first to write a review.");
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:5000/car-reviews", reviewForm, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert("Review added successfully");
+
+      setReviewForm({
+        car_make: "",
+        car_model: "",
+        car_year: "",
+        rating: "",
+        title: "",
+        review_text: "",
+      });
+
+      setShowReviewForm(false);
+      fetchReviews();
+    } catch (err) {
+      console.log(err);
+      alert("Failed to add review");
+    }
+  };
+
+  const handleSellChange = (e) => {
+    setSellForm({
+      ...sellForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSellImageChange = (e) => {
+    setSellForm({
+      ...sellForm,
+      image: e.target.files[0],
+    });
+  };
+
+  const submitSellRequest = async (e) => {
+    e.preventDefault();
+
+    if (!token) {
+      alert("Please login first to sell your car.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+
+      formData.append("car_make", sellForm.car_make);
+      formData.append("car_model", sellForm.car_model);
+      formData.append("car_year", sellForm.car_year);
+      formData.append("mileage", sellForm.mileage);
+      formData.append("fuel_type", sellForm.fuel_type);
+      formData.append("price", sellForm.price);
+      formData.append("description", sellForm.description);
+
+      if (sellForm.image) {
+        formData.append("image", sellForm.image);
+      }
+
+      await axios.post("http://localhost:5000/car-sale-requests", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("Car sale request submitted successfully");
+
+      setSellForm({
+        car_make: "",
+        car_model: "",
+        car_year: "",
+        mileage: "",
+        fuel_type: "",
+        price: "",
+        description: "",
+        image: null,
+      });
+
+      setShowSellForm(false);
+      fetchSaleRequests();
+    } catch (err) {
+      console.log(err);
+      alert("Failed to submit request");
+    }
+  };
 
   const carSections = [
     {
@@ -165,60 +323,6 @@ function NewCars() {
     },
   ];
 
-  const sellCars = [
-    {
-      image: "/new1.jpg",
-      alt: "Sell Volkswagen",
-      badge: "Sell",
-      name: "Sell your Volkswagen",
-      details: "Get a fast estimate for your car",
-      price: "Free valuation",
-    },
-    {
-      image: "/suv1.png",
-      alt: "Sell SUV",
-      badge: "Sell",
-      name: "Sell your SUV",
-      details: "Compare offers from interested buyers",
-      price: "Quick process",
-    },
-    {
-      image: "/van1.png",
-      alt: "Sell Van",
-      badge: "Sell",
-      name: "Sell your Van",
-      details: "List your vehicle in minutes",
-      price: "Easy listing",
-    },
-  ];
-
-  const reviews = [
-    {
-      image: "/new2.jpg",
-      alt: "Volkswagen Golf review",
-      badge: "Review",
-      name: "Volkswagen Golf 8 Review",
-      details: "Comfort • Fuel economy • Practicality",
-      price: "4.7 / 5",
-    },
-    {
-      image: "/ev3.png",
-      alt: "Hyundai Ioniq 5 review",
-      badge: "Review",
-      name: "Hyundai Ioniq 5 Review",
-      details: "Range • Charging • Interior space",
-      price: "4.8 / 5",
-    },
-    {
-      image: "/hybrid2.png",
-      alt: "Kia Sportage review",
-      badge: "Review",
-      name: "Kia Sportage Review",
-      details: "Hybrid system • Comfort • Safety",
-      price: "4.6 / 5",
-    },
-  ];
-
   const searchText = searchTerm.toLowerCase();
 
   const filteredSections = carSections
@@ -232,20 +336,20 @@ function NewCars() {
     }))
     .filter((section) => section.cars.length > 0);
 
-  const filteredSellCars = sellCars.filter((car) =>
-    `${car.badge} ${car.name} ${car.details} ${car.price}`
+  const filteredReviews = publicReviews.filter((review) =>
+    `${review.car_make} ${review.car_model} ${review.car_year} ${review.rating} ${review.title} ${review.review_text}`
       .toLowerCase()
       .includes(searchText)
   );
 
-  const filteredReviews = reviews.filter((car) =>
-    `${car.badge} ${car.name} ${car.details} ${car.price}`
+  const filteredSaleRequests = saleRequests.filter((car) =>
+    `${car.car_make} ${car.car_model} ${car.car_year} ${car.mileage} ${car.fuel_type} ${car.price} ${car.description}`
       .toLowerCase()
       .includes(searchText)
   );
 
   const getPlaceholder = () => {
-    if (activeTab === "sell") return "Enter your car model...";
+    if (activeTab === "sell") return "Search listed cars...";
     if (activeTab === "reviews") return "Search reviews...";
     return "Search by brand...";
   };
@@ -400,44 +504,223 @@ function NewCars() {
 
       {activeTab === "sell" && (
         <>
-          <h2 className="car-section-title">Sell My Car</h2>
+          <button
+            type="button"
+            className="review-title-button"
+            onClick={() => setShowSellForm(true)}
+          >
+            Sell My Car
+          </button>
 
-          {filteredSellCars.length > 0 ? (
+          {showSellForm && (
+            <div className="review-modal-overlay">
+              <div className="review-modal">
+                <button
+                  type="button"
+                  className="review-close-btn"
+                  onClick={() => setShowSellForm(false)}
+                >
+                  ×
+                </button>
+
+                <h2>Sell My Car</h2>
+
+                <form className="review-modal-form" onSubmit={submitSellRequest}>
+                  <input
+                    name="car_make"
+                    placeholder="Car make"
+                    value={sellForm.car_make}
+                    onChange={handleSellChange}
+                  />
+
+                  <input
+                    name="car_model"
+                    placeholder="Car model"
+                    value={sellForm.car_model}
+                    onChange={handleSellChange}
+                  />
+
+                  <input
+                    name="car_year"
+                    placeholder="Car year"
+                    value={sellForm.car_year}
+                    onChange={handleSellChange}
+                  />
+
+                  <input
+                    name="mileage"
+                    placeholder="Mileage"
+                    value={sellForm.mileage}
+                    onChange={handleSellChange}
+                  />
+
+                  <input
+                    name="fuel_type"
+                    placeholder="Fuel type"
+                    value={sellForm.fuel_type}
+                    onChange={handleSellChange}
+                  />
+
+                  <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleSellImageChange}
+                  />
+
+                  <input
+                    name="price"
+                    placeholder="Price (€)"
+                    value={sellForm.price}
+                    onChange={handleSellChange}
+                  />
+
+                  <textarea
+                    name="description"
+                    placeholder="Describe your car..."
+                    value={sellForm.description}
+                    onChange={handleSellChange}
+                  />
+
+                  <button type="submit">Submit Sale Request</button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {filteredSaleRequests.length > 0 ? (
             <section className="buy-page-content">
-              {filteredSellCars.map((car) => (
-                <div className="new-car-card" key={car.name}>
-                  <img src={car.image} alt={car.alt} />
+              {filteredSaleRequests.map((car) => (
+                <div className="new-car-card" key={car.id}>
+                  {car.image && (
+                    <img
+                      src={`http://localhost:5000/uploads/${car.image}`}
+                      alt={`${car.car_make} ${car.car_model}`}
+                    />
+                  )}
 
                   <div className="new-car-info">
-                    <span className="car-badge">{car.badge}</span>
-                    <h3>{car.name}</h3>
-                    <p>{car.details}</p>
-                    <strong>{car.price}</strong>
+                    <span className="car-badge">For Sale</span>
+
+                    <h3>
+                      {car.car_make} {car.car_model}
+                    </h3>
+
+                    <p>
+                      {car.car_year} • {car.fuel_type} • {car.mileage} km
+                    </p>
+
+                    <strong>{car.price} €</strong>
+
+                    <p>{car.description}</p>
+
+                    <small>
+                      Seller: {car.emri || "User"} {car.mbiemri || ""}
+                    </small>
                   </div>
                 </div>
               ))}
             </section>
           ) : (
-            <p className="no-results-message">No sell options found.</p>
+            <p className="no-results-message">No cars listed yet.</p>
           )}
         </>
       )}
 
       {activeTab === "reviews" && (
         <>
-          <h2 className="car-section-title">Car Reviews</h2>
+          <button
+            type="button"
+            className="review-title-button"
+            onClick={() => setShowReviewForm(!showReviewForm)}
+          >
+            Write a review
+          </button>
+
+          {showReviewForm && (
+            <div className="review-modal-overlay">
+              <div className="review-modal">
+                <button
+                  type="button"
+                  className="review-close-btn"
+                  onClick={() => setShowReviewForm(false)}
+                >
+                  ×
+                </button>
+
+                <h2>Car Review</h2>
+
+                <form className="review-modal-form" onSubmit={submitReview}>
+                  <input
+                    name="car_make"
+                    placeholder="Car make"
+                    value={reviewForm.car_make}
+                    onChange={handleReviewChange}
+                  />
+
+                  <input
+                    name="car_model"
+                    placeholder="Car model"
+                    value={reviewForm.car_model}
+                    onChange={handleReviewChange}
+                  />
+
+                  <input
+                    name="car_year"
+                    placeholder="Car year"
+                    value={reviewForm.car_year}
+                    onChange={handleReviewChange}
+                  />
+
+                  <input
+                    name="rating"
+                    placeholder="Rating 1-5"
+                    value={reviewForm.rating}
+                    onChange={handleReviewChange}
+                  />
+
+                  <input
+                    name="title"
+                    placeholder="Review title"
+                    value={reviewForm.title}
+                    onChange={handleReviewChange}
+                  />
+
+                  <textarea
+                    name="review_text"
+                    placeholder="Write your review..."
+                    value={reviewForm.review_text}
+                    onChange={handleReviewChange}
+                  />
+
+                  <button type="submit">Submit Review</button>
+                </form>
+              </div>
+            </div>
+          )}
 
           {filteredReviews.length > 0 ? (
             <section className="buy-page-content">
-              {filteredReviews.map((car) => (
-                <div className="new-car-card" key={car.name}>
-                  <img src={car.image} alt={car.alt} />
-
+              {filteredReviews.map((review) => (
+                <div className="new-car-card" key={review.id}>
                   <div className="new-car-info">
-                    <span className="car-badge">{car.badge}</span>
-                    <h3>{car.name}</h3>
-                    <p>{car.details}</p>
-                    <strong>{car.price}</strong>
+                    <span className="car-badge">Review</span>
+
+                    <h3>
+                      {review.car_make} {review.car_model}
+                    </h3>
+
+                    <p>{review.car_year}</p>
+
+                    <strong>{review.rating} / 5</strong>
+
+                    <h4>{review.title}</h4>
+
+                    <p>{review.review_text}</p>
+
+                    <small>
+                      By: {review.emri || "User"} {review.mbiemri || ""}
+                    </small>
                   </div>
                 </div>
               ))}
@@ -447,6 +730,7 @@ function NewCars() {
           )}
         </>
       )}
+
       <Footer />
     </main>
   );

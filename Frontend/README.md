@@ -1,16 +1,61 @@
-# React + Vite
+# Vehicle Service Management System - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technologies Used
 
-Currently, two official plugins are available:
+- React
+- Vite
+- Axios
+- Bootstrap
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Installation
 
-## React Compiler
+1. Open terminal in Frontend folder
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+npm install
 
-## Expanding the ESLint configuration
+2. Start development server
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+npm run dev
+
+## Features
+
+- User Authentication
+- Role-Based Access Control
+- Dashboard
+- Vehicle Management
+- Customer Management
+- Appointments Management
+- Parts Management
+- Invoices Management
+- Car Reviews
+- Buy & Sell Cars
+- Emergency Pickup Requests
+- Mechanic Applications
+- Roadside Assistance Subscriptions
+
+## User Roles
+
+### Admin
+- Full access
+
+### Staff
+- Service management
+- Customer management
+
+### User
+- Profile management
+- Vehicle tracking
+- Reviews
+- Sell vehicles
+
+### Premium User
+- All User features
+- Premium roadside assistance
+
+## Authors
+
+- Diar Mustafa
+- Lendi Luzha
+- Migjen Sylejmani
+- Muhamed Ramadani
+- Shpat Blakçori

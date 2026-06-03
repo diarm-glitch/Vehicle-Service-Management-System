@@ -143,7 +143,7 @@ function Servicing() {
         </div>
 
         <button className="service-quote-btn" onClick={() => setShowForm(true)}>
-          Get an instant quote
+          Book a service
         </button>
       </section>
 
