@@ -94,6 +94,11 @@ function Register() {
           Already have an account? <Link to="/login">Sign in</Link>
         </p>
 
+        <p style={{ marginTop: "15px" }}>
+          <Link to="/" className="back-home">
+            Back to Home
+          </Link>
+        </p>
       </div>
     </div>
   );

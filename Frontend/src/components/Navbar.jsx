@@ -7,7 +7,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <a href="#top" className="logo-link">
+      <a href="/" className="logo-link">
         <img
           className="logo"
           src="/cbgLogo.png"

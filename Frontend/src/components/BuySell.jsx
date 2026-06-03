@@ -1,12 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function BuySell() {
-  const [activeTab, setActiveTab] = useState("Find a car");
+  const [activeTab, setActiveTab] = useState("Sell my car");
 
   const placeholderText =
-    activeTab === "Find a car"
-      ? "Search by brand..."
-      : activeTab === "Sell my car"
+    activeTab === "Sell my car"
       ? "Enter your car model..."
       : "Search reviews...";
 
@@ -20,12 +19,9 @@ function BuySell() {
 
       <div className="car-search-box">
         <div className="car-tabs">
-          <button
-            className={`car-tab ${activeTab === "Find a car" ? "active" : ""}`}
-            onClick={() => setActiveTab("Find a car")}
-          >
+          <Link to="/new-cars" className="car-tab">
             Find a car
-          </button>
+          </Link>
 
           <button
             className={`car-tab ${activeTab === "Sell my car" ? "active" : ""}`}
@@ -35,7 +31,9 @@ function BuySell() {
           </button>
 
           <button
-            className={`car-tab ${activeTab === "Read reviews" ? "active" : ""}`}
+            className={`car-tab ${
+              activeTab === "Read reviews" ? "active" : ""
+            }`}
             onClick={() => setActiveTab("Read reviews")}
           >
             Read reviews
@@ -52,35 +50,30 @@ function BuySell() {
       </div>
 
       <div className="car-options">
-        <a href="#" className="car-option">
+        <Link to="/new-cars" className="car-option">
           <img src="/new.png" alt="New Cars" />
           <span>New</span>
-        </a>
+        </Link>
 
-        <a href="#" className="car-option">
-          <img src="/used.png" alt="Used Cars" />
-          <span>Used</span>
-        </a>
-
-        <a href="#" className="car-option">
+        <Link to="/new-cars#ev-section" className="car-option">
           <img src="/ev.png" alt="EV" />
           <span>EVs</span>
-        </a>
+        </Link>
 
-        <a href="#" className="car-option">
+        <Link to="/new-cars#suv-section" className="car-option">
           <img src="/suv.png" alt="SUV" />
           <span>SUVs</span>
-        </a>
+        </Link>
 
-        <a href="#" className="car-option">
+        <Link to="/new-cars#vans-section" className="car-option">
           <img src="/van.png" alt="Van" />
           <span>Vans</span>
-        </a>
+        </Link>
 
-        <a href="#" className="car-option">
+        <Link to="/new-cars#hybrid-section" className="car-option">
           <img src="/hybrid.png" alt="Hybrid" />
           <span>Hybrids</span>
-        </a>
+        </Link>
       </div>
     </section>
   );

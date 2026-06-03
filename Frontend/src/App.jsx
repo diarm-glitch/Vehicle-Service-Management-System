@@ -51,6 +51,11 @@ const PrePurchaseInspectionRequests = lazy(() => import ("./pages/PrePurchaseIns
 const MyPrePurchaseInspectionRequests = lazy(() => import ("./pages/MyPrePurchaseInspectionRequests"));
 const RoadsideSubscription = lazy(() => import ("./pages/RoadsideSubscription"));
 const RoadsideSubscriptions = lazy(() => import ("./pages/RoadsideSubscriptions"));
+const NewCars = lazy(() => import("./pages/NewCars"));
+const EVCars = lazy(() => import("./pages/EVCars"));
+const SUVCars = lazy(() => import("./pages/SUVCars"));
+const Vans = lazy(() => import("./pages/Vans"));
+const Hybrids = lazy(() => import("./pages/Hybrids"));
 
 function HomePage() {
   return (
@@ -64,7 +69,7 @@ function HomePage() {
 
         <div className="hero-buttons">
           <a href="#services" className="book-btn">Book a Service</a>
-          <a href="#buysell" className="outline-btn">Buy or Sell Cars</a>
+          <Link to="/new-cars" className="outline-btn">Buy or Sell Cars</Link>
           <Link to="/emergency-pickup" className="outline-btn"> Emergency Pickup </Link>
         </div>
       </section>
@@ -125,6 +130,16 @@ function App() {
       <Route path="/pre-purchase-inspection" element={<PrePurchaseInspection />} />
 
       <Route path="/servicing-requests" element={<ServicingRequests />} />
+
+      <Route path="/new-cars" element={<NewCars />} />
+
+      <Route path="/ev-cars" element={<EVCars />} />
+
+      <Route path="/suv-cars" element={<SUVCars />} />
+
+      <Route path="/vans" element={<Vans />} />
+
+      <Route path="/hybrids" element={<Hybrids />} />
 
       <Route 
       path="/dashboard" 
